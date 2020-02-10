@@ -1,0 +1,64 @@
+body{padding:0 5px;margin:0}
+h1,h2,h3,h4,h5,h6,div,ul,li,ol{
+	margin: 0;
+	padding: 0;
+}
+.header{padding:34px 0 10px 0;height:auto;margin:0;width:100%;}
+.articel{padding:30px 0 0 28px;height:auto;margin:0;width:1050px;}
+.header h1{font-size:150%;font-family:\5FAE\8F6F\96C5\9ED1;color:#686868;font-weight:400;text-shadow:0.5px 0.5px 1px #bbb;width:auto;float:left;max-width:30%}
+.header li{float:left;}
+.aside{float:right;font-size:12px;width:50%;max-width:200px;text-align:right}
+.aside ul{text-align:right}
+.aside h6{font-size:14px;}
+.aside li{width:62px;height:64px;display:inline-block;color:#fff;padding:1px 0 0 3px;}
+.aside li p{margin-top:26px;}
+.aside li.u1{width:35%;height:65px;display:inline-block;background:#686868;max-width:65px;float:right}
+.aside li.u2{width:45%;height:65px;display:inline-block;background:#3d80be;margin-left:1px;max-width:135px;float:right}
+/* For modern browsers */
+.cf:before,
+.cf:after {
+    content:"";
+    display:table;
+}
+
+.cf:after {
+    clear:both;
+}
+
+/* For IE 6/7 (trigger hasLayout) */
+.cf {
+    zoom:1;
+}
+body {  color: black;font-family: Arial, sans-serif; }
+video { 
+  border: 1px solid black;
+  padding: 0; margin: 0;
+  width: 605px;
+  height: 340px;
+  background-color: black;
+  margin: auto; display: block;
+}
+input{border:none;background:none}
+table { border: none; margin:2em auto; }
+tr{border-spacing:5px}
+th {  text-align: right; }
+td{}
+caption { background-color: #ccc; padding:5px 0}
+thead th {  background-color: #ccc; }
+#events td { text-align: right; width: 4ex;}
+#properties td { }
+hr { clear: both; margin-top: 2em;}
+.true { background-color: #E3FFD5 }
+.false { background-color: #eee }
+#buttons { text-align: center; }
+#buttons button{padding:2px;margin:3px;}
+#m_video td, #m_video th, #tracks td, #tracks tth { text-align: center; padding-left: 0.5ex; padding-right: 0.5ex;}
+.intro{width:80%}
+.intro th{text-align:left}
+.intro td{border:1px solid #ccc;padding:5px}
+
+
+
+
+
+

@@ -1,0 +1,72 @@
+/* style.css */
+body{padding:0 5px;margin:0}
+.header{padding:34px 0 10px 0;height:auto;margin:0;width:100%;}
+.articel{padding:30px 0 0 28px;height:auto;margin:0;width:1050px;}
+.header h1{font-size:150%;font-family:\5FAE\8F6F\96C5\9ED1;color:#686868;font-weight:400;text-shadow:0.5px 0.5px 1px #bbb;width:auto;float:left;max-width:30%}
+.header li{float:left;}
+.aside{float:right;font-size:12px;width:50%;max-width:200px;text-align:right}
+.aside ul{text-align:right}
+.aside h6{font-size:14px;}
+.aside li{width:62px;height:64px;display:inline-block;color:#fff;padding:1px 0 0 3px;}
+.aside li p{margin-top:26px;}
+.aside li.u1{width:35%;height:65px;display:inline-block;background:#686868;max-width:65px;float:right}
+.aside li.u2{width:45%;height:65px;display:inline-block;background:#3d80be;margin-left:1px;max-width:135px;float:right}
+*  {
+	margin: 0;
+	padding: 0;
+}
+
+::selection {
+	background: #ff9;
+	color: #555;
+	text-shadow: none;
+}
+
+::-moz-selection {
+	background: #F8F7C9;
+	color: #CB9240;
+	text-shadow: none;
+}
+
+/* For modern browsers */
+.cf:before,
+.cf:after {
+    content:"";
+    display:table;
+}
+
+.cf:after {
+    clear:both;
+}
+
+/* For IE 6/7 (trigger hasLayout) */
+.cf {
+    zoom:1;
+}
+
+html {
+	font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
+	font-size: 100%;
+	background: none;
+	color: #333;
+	line-height: 1.5;
+	-webkit-font-smoothing: antialiased;
+}
+.header{display:block}
+
+.fiexd{position: fixed;top:100px;}
+h2{font-size:16px;}
+h3{padding:5px 0;font-size:14px;}
+h4{padding:5px 0;font-size:12px;}
+.state ul{padding:5px 12px;}
+.state ul li{list-style-type:none}
+.state ul .text{color:#DD4B39}
+
+
+
+
+
+
+
+
+

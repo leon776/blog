@@ -1,0 +1,167 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>TransitionEnd Code Example</title>
+  <meta name="author" content="leon">
+  <meta name="viewport" content="width=device-width">
+  <link rel="stylesheet" type="text/css" href="css/style.css">
+  <script src="jquery-1.10.2.min.js"></script>
+</head>
+<body>
+    <div class="carousel">
+      <div id="carouselStage" class="carousel-stage">
+        <a href="javascript:" style="display:block"><img src="img/slide-1.jpg"></a>
+        <a href="javascript:"><img src="img/slide-2.jpg"></a>
+        <a href="javascript:"><img src="img/slide-3.jpg"></a>
+        <a href="javascript:"><img src="img/slide-4.jpg"></a>
+      </div>
+      <div class="carousel-pagination">
+         <ul id="carouselPagination">
+          <li class="active"></li>
+          <li></li>
+          <li></li>
+          <li></li>
+        </ul> 
+      </div>
+      <a href="javascript:" id="carouselPrev" class="carousel-btn carousel-prev">上一张</a>
+      <a href="javascript:" id="carouselNext" class="carousel-btn carousel-next">下一张</a>
+    </div>
+    <script>
+      var carousel = {};
+      //动画前定位
+      carousel.changeSlider = function() {
+        var endPositon = 0;
+        endPositon = carousel.container.width();  
+        if(carousel.next < carousel.now){
+          endPositon = -endPositon;
+        }
+        carousel.containerImgs.css({'z-index':'0','display':'none','left':'0px'});
+        $(carousel.containerImgs[carousel.next]).css({'left':endPositon + 'px',"display":"block","z-index":"2"});
+        carousel.containerImgs[carousel.now].style.display = "block";
+        carousel.animationStart(endPositon);
+      }
+      //动画开始
+      carousel.animationStart = function(endPositon) {
+        carousel.flag = false;
+        if(document.body.style.transition !== undefined){
+          carousel.container.css({
+            "transition-duration":carousel.speed + "ms",
+            "transform":"translateX("+ -endPositon +"px)"
+          });
+          //console.log($._data(carousel.container[0],'events')['transitionend']);
+        }
+        else{
+          carousel.container.css('marginLeft','0px');
+          carousel.container.animate({marginLeft:-endPositon+'px'},carousel.speed,carousel.animationEnd);
+        }
+        carousel.now = carousel.next;
+      };
+      //动画结束
+      carousel.animationEnd = function() {
+        if(carousel.flag) {
+          return;
+        }
+        carousel.containerImgs[carousel.next].style.left = "0px";
+        carousel.container.css({
+          "transitionDuration":"0ms",
+          "transform":"translateX(0)",
+          "marginLeft":"0px"
+        });
+        carousel.flag = true;
+      };
+      //自动播放
+      carousel.setAutoAnimate = function() {
+        carousel.sh = window.setInterval(function(){
+          carousel.auto++;
+          carousel.play();
+        }, 5000);
+      }
+      //手动上下翻页
+      carousel.turnPage = function(op){
+        if(carousel.flag){
+          if(op){
+            carousel.auto--;
+          }
+          else{
+            carousel.auto++;
+          }
+          carousel.play();
+        }
+      }
+      //播放一帧
+      carousel.play = function(){
+          if(carousel.auto >= carousel.annList.length){
+            carousel.auto = 0;
+          }
+          if(carousel.auto < 0){
+            carousel.auto = carousel.annList.length-1;
+          }
+          carousel.annList[carousel.auto].click();
+      }  
+      //初始化
+      carousel.init = function(obj) {
+        carousel.container = $('#' + obj.stage);
+        carousel.containerImgs = $(carousel.container[0].getElementsByTagName('a'));
+        carousel.annList   = $('#' + obj.ctrl + ' li');
+        carousel.btn       = {prev:$('#' + obj.prev),next:$('#' + obj.next)};
+        carousel.speed     = obj.speed;
+        carousel.flag      = true;
+        carousel.sh        = 0;
+        carousel.auto      = 0;
+        carousel.now       = carousel.next = 0;
+        if(obj.autoplay) {
+          carousel.setAutoAnimate();
+        }
+        carousel.bindEvent();
+      };
+      //绑定事件
+      carousel.bindEvent = function(){
+        //分页按钮点击
+        carousel.annList.click(function(){
+          var index = carousel.annList.index(this);
+          if (index !== carousel.now && carousel.flag) {
+            carousel.next = index;
+            carousel.annList.removeClass("active");
+            carousel.annList[index].className = "active";
+            carousel.changeSlider();
+          };
+        });
+        //翻页按钮点击
+        carousel.btn.prev.click(function(){
+          carousel.turnPage(true);
+        });
+        carousel.btn.next.click(function(){
+          carousel.turnPage(false);
+        })
+        //监听动画
+        carousel.container.bind({
+          "transitionend":carousel.animationEnd
+        });
+        //carousel.container[0].addEventListener('webkitTransitionEnd',  carousel.animationEnd, false);
+        //人工控制时终止自动播放
+        if(carousel.sh > 0){
+          var endAuto = function(){
+            clearInterval(carousel.sh);
+          }
+          var startAuto = function(){
+            carousel.setAutoAnimate();
+          }
+          carousel.btn.next.bind({'mouseover':endAuto,'mouseout':startAuto});
+          carousel.btn.prev.bind({'mouseover':endAuto,'mouseout':startAuto});
+          carousel.annList.bind({'mouseover':endAuto,'mouseout':startAuto});
+        }
+      }
+      carousel.init(
+        {
+          stage : 'carouselStage',
+          ctrl  : 'carouselPagination', 
+          prev  : 'carouselPrev',
+          next  : 'carouselNext',
+          speed : 500,
+          autoplay : false
+        }
+      );  
+    </script>
+</body>
+</html>

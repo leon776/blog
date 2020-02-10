@@ -1,0 +1,216 @@
+@charset "utf-8";
+
+.dialog-overlay
+{
+    opacity:0.7;
+    filter:alpha(opacity:50);
+    background:gray;
+}
+
+.dialog
+{
+    /*border:5px solid rgba(200,200,200,0.9);*/
+    background:gray;
+    padding:10px;
+    /*opacity:0.9;
+    filter:alpha(opacity:70);*/
+    border-radius:3px;
+    -moz-border-radius:3px;
+    -webkit-border-radius:3px;
+    _width:expression('200px'); /* IE6下不指定此值，会一直粘在右侧 */
+}
+
+
+
+.dialog .bar
+{
+    cursor:move;
+    color:#fff;
+    font-size: 12px;
+    background:#000;
+    padding:6px;
+    min-height:15px; /* 不指定此值，在title和closeText都为空的情况下，可能移动条会消失不见 */
+    _height:expression('20px'); /* ie6下不指定高度，标题栏会变得很小 */
+}
+
+.dialog .bar .title
+{
+    float:left;
+    margin-right:10px;
+    font-size:12px;
+}
+
+.dialog .bar .close
+{
+    float:right;
+    cursor:pointer;
+    font-size: 12px;
+    text-decoration:none;
+}
+
+.dialog .content
+{
+    background:#fff;
+    padding:10px;
+}
+
+.dialog iframe
+{
+    height:100%;
+    width:100%;
+}
+
+
+
+/* 指定图像最大尺寸，不需要可以删除。 */
+.content img
+{
+    overflow:auto;
+    max-width:700px;
+    max-height:500px;
+    /* IE6版的max-width和max-height，但是也会有点BUG在图片太小时，也会显示最大值，需要同时指定width和height */
+    _width:expression((document.body.clientWidth > 700) ? '700px' : 'auto');
+    _height:expression((document.body.clientHeight > 500) ? '500px' : 'auto');
+}
+
+body{margin:0;border:0;height:100%;overflow-y:auto;}
+#copyright{display:block; bottom:1px; right:1px; width:11px; position:fixed;color: #FFF;text-align: right;vertical-align: text-bottom;background-color:#FFFFFF;}
+html #copyright{position:absolute;right:1px;background-color:#FFFFFF;} 
+html{overflow-x:auto; overflow-y:hidden;}
+#cpimg{margin:1px;}
+
+#alt-text {
+    color: #FF9900;
+    display: none;
+    font-family: Georgia,"Times New Roman",Times,serif;
+    font-size: 15px;
+    font-weight: bold;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    width: 100%;
+	text-align: center;
+	margin-top: 0px;
+	padding: 0px;
+
+}
+#title-text {
+    color: #FF9900;
+    display: none;
+    font-family: Georgia,"Times New Roman",Times,serif;
+    font-size: 15px;
+    font-weight: bold;
+    letter-spacing: 1px;
+    margin-top: 0px;
+	padding: 0px;
+    text-transform: uppercase;
+    width: 100%;
+	text-align: center;
+}
+.carouselLeft {
+    background: url("../img/ann.png") repeat scroll 0 0 transparent;
+    display: none;
+    height: 40px;
+    width: 40px;
+	cursor:pointer;
+}
+.carouselLeft:hover {
+    background-position: 0 -40px;
+    cursor: auto;
+    height: 40px;
+    width: 40px;
+}
+.carouselRight {
+    background: url("../img/ann2.png") repeat scroll 0 0 transparent;
+    display: none;
+    height: 40px;
+    width: 40px;
+	cursor:pointer;
+}
+.carouselRight:hover {
+    background-position: 0 -40px;
+    height: 40px;
+    width: 40px;
+}
+a img {
+	border-style: none;
+}
+.alpha1,.alpha2{
+　　width:100%;
+　　height:auto;
+　　min-height:250px;/* 必需 */
+　　_height:250px;/* 必需 */
+　　overflow:hidden;
+　　background-color:#FF0000;/* 背景色 */
+}
+.alpha1{
+　　filter:alpha(opacity=20); /* IE 透明度20% */
+}
+.alpha2{
+　　background-color:#FFFFFF;
+　　-moz-opacity:0.8; /* Moz + FF 透明度20%*/
+　　opacity: 0.8; /* 支持CSS3的浏览器（FF 1.5也支持）透明度20%*/
+}
+.ap2{
+　　position:absolute;
+}
+#carousel1{background:url(../img/bg.jpg) center center no-repeat #000;display:block;position:relative;width:100%;height:100%;overflow:hidden;visibility: hidden;}
+
+#carousel1 a{position:absolute;display:block;
+-webkit-transition:.25s all;/*动画过渡时间为1s*/
+	-moz-transition:.25s all;
+	-o-transition:.25s all;
+	transition:.25s all;
+}
+#carousel1 a:after2 {
+	position: absolute;
+	content: ' ';
+	width: 100%;
+	height: 30px;
+	bottom: -31px;
+	left: 0;
+ 
+	-webkit-border-top-left-radius: 20px;
+	-webkit-border-top-right-radius: 20px;
+	-moz-border-radius-topleft: 20px;
+	-moz-border-radius-topright: 20px;
+	border-top-left-radius: 20px;
+	border-top-right-radius: 20px;
+ 
+	background: -moz-linear-gradient(top, rgba(0,0,0,.3) 0%, rgba(255,255,255,0) 100%);
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(0,0,0,.13)), color-stop(80%,rgba(255,255,255,0)));
+	background: linear-gradient(top, rgba(0,0,0,.3) 0%,rgba(255,255,255,0) 100%);}
+
+#carousel1 a img{
+	-webkit-box-shadow: inset 0 0 4px rgba(0,0,0,1), inset 0 2px 1px rgba(255,255,255,.9), inset 0 -9px 2px rgba(0,0,0,.6), inset 0 -12px 2px rgba(255,255,255,.3);
+	-moz-box-shadow: inset 0 0 4px rgba(0,0,0,1), inset 0 2px 1px rgba(255,255,255,.5), inset 0 -9px 2px rgba(0,0,0,.6), inset 0 -12px 2px rgba(255,255,255,.3);
+	box-shadow: inset 0 0 4px rgba(0,0,0,1), inset 0 2px 1px rgba(255,255,255,.5), inset 0 -9px 2px rgba(0,0,0,.6), inset 0 -12px 2px rgba(255,255,255,.3);
+ 
+	-webkit-border-radius: 20px;
+	-moz-border-radius: 20px;
+	border-radius: 20px;
+/* -webkit-box-reflect: below 3px -webkit-gradient(linear, 0 0, 0 100%, from(transparent), color-stop(.8, transparent), to(#000)); */
+-webkit-transition:.25s all;/*动画过渡时间为1s*/
+	-moz-transition:.25s all;
+	-o-transition:.25s all;
+	transition:.25s all;
+}
+
+.reflection{
+	position:absolute;
+	left:0;
+	-webkit-border-radius: 20px;
+	-moz-border-radius: 20px;
+	border-radius: 20px;
+	-webkit-transition:.25s all;/*动画过渡时间为1s*/
+	-moz-transition:.25s all;
+	-o-transition:.25s all;
+	transition:.25s all;
+	margin-top:5px;
+}
+
+
+
+
+
+
+

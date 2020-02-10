@@ -1,0 +1,13 @@
+CACHE MANIFEST
+
+# VERSION 0.3
+
+# 直接缓存的文件
+CACHE:
+
+# 需要在线访问的文件
+NETWORK:
+*
+
+# 替代方案
+FALLBACK:

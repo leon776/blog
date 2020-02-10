@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+    <title>拖拽上传+上传进度+预览图片+多文件上传</title>
+    <style type="text/css">
+    	div,ul,li{margin:0;padding: 0;}
+    	#fileToUpload{
+    		visibility: hidden;position: absolute;
+    	}
+    	label{
+    		border: 1px solid #ccc;
+			background: #f7f7f7;
+			padding: 10px;
+			font-size: 14px;
+			cursor: pointer;
+			-webkit-user-select:none;
+    	}
+    	#dropbox{
+    		width: 600px;
+    		height: 300px;
+    		border: 1px dotted #ccc;
+    		text-align: center;
+    		position: relative;
+    	}
+    	#dropbox:before{
+    		content: '请将文件拖拽至此或点击';
+    		display: block;
+    		top: 60%;
+    		left: 0;
+    		right: 0;
+    		position: absolute;
+    	}
+    	#imgPreview {
+    		list-style: none;
+    		height: 260px;
+    		overflow-y:auto;
+    	}
+    	#imgPreview li{
+    		float: left;
+    		position: relative;
+    		width: 100px;
+    		margin: 4px 8px;
+    	}
+    	#imgPreview li progress{
+    		width: 100%;
+    	}
+    	#imgPreview img{width: 100px;height: 90px;}
+    </style>
+    <script type="text/javascript">
+     function fileSelected(file) {
+        var files = file.files, length = files.length, fid;
+        if (length > 0) {
+        	for(var i = 0; i < length; i++) {
+		        if(files[i].type === 'image/jpeg' || files[i].type === 'image/png') {
+		        	fid = new Date().getTime() + i.toString();
+		        	buildPreviewImgList(files[i], fid, uploadFile);
+		        } else{
+		        	throw '类型错误，请上传png或jpg类型的图片';
+		        }
+        	}
+        }
+      }
+
+      function buildPreviewImgList(file, fid, callback) {
+        var reader = new FileReader();
+		reader.readAsDataURL(file);
+    	reader.onloadend = function(event) {
+        	var li = document.createElement('li');
+        	li.innerHTML = '<li id="pre_'+ fid +'"><img src="'+ this.result +'"/><progress value="0" max="100"></progress></li>';
+        	document.getElementById('imgPreview').appendChild(li);
+        	callback(file, fid);
+        }
+      }
+
+      function uploadFile(file, fid) {
+  		var fd = new FormData();
+   	 	fd.append("APC_UPLOAD_PROGRESS", fid);
+   	 	fd.append("file", file);
+		var xhr = new XMLHttpRequest();
+		xhr.upload.addEventListener("progress", function(evt){
+			uploadProgress(evt, fid);
+		}, false);
+    	xhr.addEventListener("progress", function(evt){
+    		if (evt.lengthComputable) {
+	　　　　　　	var percentComplete = Math.round(evt.position * 100 / evt.total);
+				console.log(evt);
+				console.log('请求进度:' + percentComplete + "%");
+	　　　　  }
+    	}, false);
+    	xhr.open("POST", "upload.php");
+    	xhr.send(fd);
+      }
+
+      function uploadProgress(evt, fid) {
+        try {
+          var percentComplete = Math.round(evt.loaded * 100 / evt.total);
+          document.getElementById('pre_' + fid).getElementsByTagName('progress')[0].value = percentComplete;
+        } catch(e) {
+        	throw e;
+        }
+      }
+    </script>
+</head>
+<body>
+<div id="dropbox" ondragenter= "return false" ondragover= "return false">
+	<ul id="imgPreview"></ul>
+	<form id="form1" enctype="multipart/form-data" method="post" action="upload.php">
+		<label for="fileToUpload">选择文件</label>
+		<input type="file" name="fileToUpload" id="fileToUpload" onchange="fileSelected(this);" multiple="multiple"/>	
+	</form>
+</div>	
+<script type="text/javascript">
+(function(){
+var dropbox = document.getElementById('dropbox');
+dropbox.addEventListener("drop", function(e) {
+  	e.stopPropagation();
+  	e.preventDefault();
+  	fileSelected(e.dataTransfer);
+}, false);})();
+</script>
+</body>
+</html>

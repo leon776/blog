@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <!-- Always force latest IE rendering engine (even in intranet) & Chrome Frame -->
+    <!--[if IE]>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <![endif]-->
+    <title>获取数据的DEMO</title>
+    <meta name="Description" content="">
+    <meta name="author" content="xiaoweili" />
+    <meta name="viewport" content="target-densitydpi=device-dpi,  initial-scale=1.0, width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <link rel="shortcut icon" href="#" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <script type="text/javascript" src="js/respond.src.js"></script>
+    <script type="text/javascript" src="js/jquery-1.8.3.min.js"></script>
+</head>
+<body class="ns-golable">
+  <script type="text/javascript">
+    var callback = function (data) {
+      console.log(data);
+      if(data.errno === 0) {
+        createWaterFallHtml(data.body);
+      } else {
+        throw '服务器错误';
+      }
+    }
+    var createWaterFallHtml = function(data) {
+      var html = '';
+      for (var i = 0; i < data.length; i++) {
+        html += 
+          '<div>'+
+            '<img src="' + data[i].pic + '">' +
+            '<p>' + data[i].title + '</p>' +
+          '</div>';
+      };
+      console.log(data);
+      document.write(html);
+    }
+    $.ajax({
+       type: "GET",
+       url: "get_pic.php",
+       data: "",
+       dataType: "json",
+       success: function(data){
+         callback(data);
+       }
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <title>HTML5 Video</title>
+  <script src="script.js">
+  </script>
+  <link href="css/style.css" rel="stylesheet" type="text/css">
+</head>
+<body style="background-color:transparent">  
+
+  <div>
+    <video id="video" controls="" preload="none" poster="http://media.w3.org/2010/05/sintel/poster.png">
+      <source id="mp4" src="http://media.w3.org/2010/05/sintel/trailer.mp4" type="video/mp4">
+      <source id="webm" src="http://media.w3.org/2010/05/sintel/trailer.webm" type="video/webm">
+      <source id="ogv" src="http://media.w3.org/2010/05/sintel/trailer.ogv" type="video/ogg">
+      <div style="height:342px;line-height:342px;text-align:center;font-size:18px;">您的浏览器不支持HTML5视频</div>
+    </video>
+    <div id="buttons">
+      <button onclick="document._video.load()">载入视频：load()</button>
+      <button onclick="document._video.play()">播放视频：play()</button>
+      <button onclick="document._video.pause()">暂停：pause()</button>
+      <button onclick="document._video.currentTime+=10">快进10秒：currentTime+=10</button>
+      <button onclick="document._video.currentTime-=10">快退10秒：currentTime-=10</button>
+      <button onclick="document._video.currentTime=50">跳到50秒：currentTime=50</button><br>
+      <button onclick="document._video.playbackRate++">播放速度增加：playbackRate++</button>
+      <button onclick="document._video.playbackRate--">播放速度减少：playbackRate--</button>
+      <button onclick="document._video.playbackRate+=0.1">播放速度增加0.1：playbackRate+=0.1</button>
+      <button onclick="document._video.playbackRate-=0.1">播放速度减少0.1：playbackRate-=0.1</button><br>
+      <button onclick="document._video.volume+=0.1">音量增加：volume+=0.1</button>
+      <button onclick="document._video.volume-=0.1">音量减少：volume-=0.1</button>
+      <button onclick="document._video.muted=true">静音：muted=true</button>
+      <button onclick="document._video.muted=false">取消静音：muted=false</button>
+      
+	  <br>
+<!--       
+<button onclick="document._video.addTextTrack()">addTextTrack</button>
+	<button onclick="switchVideo(0);">Sintel teaser</button>
+      <button onclick="switchVideo(1);">Bunny trailer</button>
+      <button onclick="switchVideo(2);">Bunny movie</button>
+      <button onclick="switchVideo(3);">Test movie</button> -->
+    </div>
+    <table summary="媒体事件记录">
+      <caption>媒体事件（Media Events）</caption>
+	 <tbody id="events">
+    <tr>
+        <th>
+            loadstart
+        </th>
+        <td id="e_loadstart" class="true">
+            2
+        </td>
+        <th>
+            progress
+        </th>
+        <td id="e_progress" class="true">
+            2
+        </td>
+        <th>
+            suspend
+        </th>
+        <td id="e_suspend" class="true">
+            2
+        </td>
+        <th>
+            abort
+        </th>
+        <td id="e_abort" class="true">
+            1
+        </td>
+
+    </tr>
+    <tr>
+        <th>
+            emptied
+        </th>
+        <td id="e_emptied" class="true">
+            1
+        </td>
+        <th>
+            stalled
+        </th>
+        <td id="e_stalled" class="false">
+            0
+        </td>
+        <th>
+            loadedmetadata
+        </th>
+        <td id="e_loadedmetadata" class="true">
+            2
+        </td>
+        <th>
+            loadeddata
+        </th>
+        <td id="e_loadeddata" class="true">
+            2
+        </td>
+
+    </tr>
+    <tr>
+        <th>
+            canplaythrough
+        </th>
+        <td id="e_canplaythrough" class="true">
+            2
+        </td>
+        <th>
+            playing
+        </th>
+        <td id="e_playing" class="true">
+            1
+        </td>
+        <th>
+            waiting
+        </th>
+        <td id="e_waiting" class="true">
+            1
+        </td>
+        <th>
+            seeking
+        </th>
+        <td id="e_seeking" class="false">
+            0
+        </td>
+
+    </tr>
+    <tr>
+        <th>
+            ended
+        </th>
+        <td id="e_ended" class="false">
+            0
+        </td>
+        <th>
+            durationchange
+        </th>
+        <td id="e_durationchange" class="true">
+            2
+        </td>
+        <th>
+            timeupdate
+        </th>
+        <td id="e_timeupdate" class="true">
+            11
+        </td>
+        <th>
+            play
+        </th>
+        <td id="e_play" class="true">
+            1
+        </td>
+
+    </tr>
+    <tr>
+	        <th>
+            seeked
+        </th>
+        <td id="e_seeked" class="false">
+            0
+        </td>
+        <th>
+            ratechange
+        </th>
+        <td id="e_ratechange" class="false">
+            0
+        </td>
+        <th>
+            volumechange
+        </th>
+        <td id="e_volumechange" class="false">
+            0
+        </td>
+    </tr>
+	<tr>
+	        <th>
+            pause
+        </th>
+        <td id="e_pause" class="false">
+            0
+        </td>
+		<th>
+            error
+        </th>
+        <td id="e_error" class="false">
+            0
+        </td>
+		        <th>
+            canplay
+        </th>
+        <td id="e_canplay" class="true">
+            2
+        </td>
+	</tr>
+</tbody>
+      <!-- <tbody id="events">
+      <tr><th>载入次数</th><td id="e_loadstart" class="true">17</td><th>进度</th><td id="e_progress" class="true">135</td><th>终止</th><td id="e_suspend" class="true">6</td><th>载入失败</th><td id="e_abort" class="true">16</td><th>出现错误</th><td id="e_error" class="false">0</td></tr><tr><th>视频为空</th><td id="e_emptied" class="true">16</td><th>停滞</th><td id="e_stalled" class="true">5</td><th>加载的元数据</th><td id="e_loadedmetadata" class="true">8</td><th>加载的数据</th><td id="e_loadeddata" class="true">8</td><th>可以播放</th><td id="e_canplay" class="true">8</td></tr><tr><th>改变断点</th><td id="e_canplaythrough" class="true">8</td><th>播放中</th><td id="e_playing" class="true">3</td><th>等待</th><td id="e_waiting" class="true">2</td><th>查找</th><td id="e_seeking" class="true">15</td><th>找到结果</th><td id="e_seeked" class="true">13</td></tr><tr><th>播放结束</th><td id="e_ended" class="false">0</td><th>时间变化</th><td id="e_durationchange" class="true">8</td><th>播放时间更新</th><td id="e_timeupdate" class="true">154</td><th>播放</th><td id="e_play" class="true">3</td><th>暂停</th><td id="e_pause" class="false">0</td></tr><tr><th>播放速率变化</th><td id="e_ratechange" class="true">14</td><th>声音改变</th><td id="e_volumechange" class="true">13</td></tr></tbody> -->
+    </table>
+    <table summary="属性记录" cellspacing="4">
+      <caption>媒体属性（Media Properties）</caption>
+      <tbody id="properties">
+      </tbody>
+    </table>
+
+    <table id="canPlayType" summary="The Media Types table indicates what media types are supported" >
+      <caption>当前浏览器可播放的视频格式</caption>
+      <tbody id="m_video">
+      </tbody>
+    </table>
+
+    <table id="tracks" summary="The Media Types table indicates what media types are supported">
+      <caption>轨道</caption>
+      <tbody>
+	<tr>
+	  <th>Audio</th>
+	  <th>Video</th>
+	  <th>Text</th>
+	</tr>
+	<tr>
+	  <td id="m_audiotracks" class="false">?</td>
+	  <td id="m_videotracks" class="false">?</td>
+	  <td id="m_texttracks" class="false">?</td>
+	</tr>
+      </tbody>
+    </table>
+
+
+  </div>
+
+
+
+     
+
+</body></html>

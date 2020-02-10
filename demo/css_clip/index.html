@@ -1,0 +1,147 @@
+<!doctype html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <title>Css clip</title>
+  <meta name="author" content="leon">
+  <meta name="viewport" content="width=device-width">
+  <style type="text/css">
+    body{padding: 0;margin: 0}
+    .clip{
+      position:absolute;
+      /*clip:rect(0px,0px,0px,0px);*/
+      overflow: hidden;
+      margin-top: 10px;
+    }
+    .form{
+      font-size: 12px;
+    }
+    .form div{margin: 5px 0;}
+    .form input[type="number"],.form input[type="text"]{
+      width: 50px;padding-left: 4px;border:1px solid #ccc;margin:0 4px;
+    }
+  </style>
+</head>
+<body>
+  <div class="form" action="/" onsubmit="animate();">
+    <form>
+    <div>
+      <span>初始位置:</span>
+      <label>上<input id="s1" type="number" value="0.5" max="1" min="0" step="0.1"></label>
+      <label>右<input id="s2" type="number" value="0.5" max="1" min="0" step="0.1"></label>
+      <label>下<input id="s3" type="number" value="0.5" max="1" min="0" step="0.1"></label>
+      <label>左<input id="s4" type="number" value="0.5" max="1" min="0" step="0.1"></label>
+    </div>
+    <div>
+      <span>結束位置:</span>
+      <label>上<input id="e1" type="number" value="0" max="1" min="0" step="0.1"></label>
+      <label>右<input id="e2" type="number" value="1" max="1" min="0" step="0.1"></label>
+      <label>下<input id="e3" type="number" value="1" max="1" min="0" step="0.1"></label>
+      <label>左<input id="e4" type="number" value="0" max="1" min="0" step="0.1"></label>
+    </div>
+    <div>
+    <label>执行时间:<input id="time" type="number" value="500">毫秒</label>
+    </div>
+    <div>
+    <label>结果css:<input id="clipValue" type="text" value="" style="width:280px"></label>
+    </div>
+    <input type="submit" value="执行">
+    </form>
+  </div>
+  <div class="clip" id="elm">
+    <img src="test.jpg">
+  </div>
+  <script type="text/javascript">
+    window.cancelRequestAnimFrame = (function() {
+      return window.cancelAnimationFrame          ||
+          window.webkitCancelRequestAnimationFrame||
+          window.mozCancelRequestAnimationFrame   ||
+          window.oCancelRequestAnimationFrame     ||
+          window.msCancelRequestAnimationFrame    ||
+          clearTimeout
+    })();
+    window.requestAnimFrame = (function(){
+        return  window.requestAnimationFrame   || 
+            window.webkitRequestAnimationFrame || 
+            window.mozRequestAnimationFrame    || 
+            window.oRequestAnimationFrame      || 
+            window.msRequestAnimationFrame     || 
+            function(/* function */ callback, /* DOMElement */ element){
+                return window.setTimeout(callback, 1000 / 60);
+            };
+    })();
+    var clip = {};
+    clip.init = function(id, start, end, time, callback) {
+      cancelRequestAnimFrame(clip.sh);
+      clip.elm = document.getElementById(id);
+      clip.w = clip.elm.offsetWidth;
+      clip.h = clip.elm.offsetHeight;
+      clip.cur = {};
+      clip.step = {};
+      clip.end = {};
+
+      clip.cur.t = start[0]*clip.h;
+      clip.cur.r = start[1]*clip.w;
+      clip.cur.b = start[2]*clip.h;
+      clip.cur.l = start[3]*clip.w;
+
+      clip.end.t = Math.round(end[0]*clip.h);
+      clip.end.r = Math.round(end[1]*clip.w);
+      clip.end.b = Math.round(end[2]*clip.h);
+      clip.end.l = Math.round(end[3]*clip.w);
+
+      /*定义多少秒走完动画，每秒60帧*/
+      var ratio = time * 6 / 100;
+      clip.step.t = (clip.end.t - clip.cur.t)/ratio;
+      clip.step.r = (clip.end.r - clip.cur.r)/ratio;
+      clip.step.b = (clip.end.b - clip.cur.b)/ratio;
+      clip.step.l = (clip.end.l - clip.cur.l)/ratio;
+      clip.start();
+      callback(clip.end);
+    };
+    clip.start = function() {
+      var _this = this;
+      _this.startTime = Date.parse(new Date()); 
+      _this.change(_this);
+    };
+    clip.change = function(obj){
+      clip.sh = requestAnimFrame(function(){
+        obj.change(obj);
+      });
+      var cur = obj.cur;
+      cur.t = obj.step.t > 0 ? (cur.t < clip.end.t ? cur.t + obj.step.t : clip.end.t) : (cur.t > clip.end.t ? cur.t + obj.step.t : clip.end.t);
+      cur.r = obj.step.r > 0 ? (cur.r < clip.end.r ? cur.r + obj.step.r : clip.end.r) : (cur.r > clip.end.r ? cur.r + obj.step.r : clip.end.r);
+      cur.b = obj.step.b > 0 ? (cur.b < clip.end.b ? cur.b + obj.step.b : clip.end.b) : (cur.b > clip.end.b ? cur.b + obj.step.b : clip.end.b);
+      cur.l = obj.step.l > 0 ? (cur.l < clip.end.l ? cur.l + obj.step.l : clip.end.l) : (cur.l > clip.end.l ? cur.l + obj.step.l : clip.end.l);
+
+      obj.elm.style.clip = "rect(" + cur.t + "px," + cur.r + "px," + cur.b + "px," + cur.l + "px)";
+
+      if(cur.t === clip.end.t && 
+         cur.l === clip.end.l && 
+         cur.r === clip.end.r && 
+         cur.b === clip.end.b) {
+        cancelRequestAnimFrame(obj.sh);
+        obj.endTime = Date.parse(new Date()); 
+      }
+    }
+    
+      //clip.init('clip',[0.5,0.5,0.5,0.5] , [0,1,1,0], 500);
+    function $(id) {return document.getElementById(id) || id;}
+    function animate() {
+      if (event.preventDefault) {
+        event.preventDefault();
+      } else {
+        event.returnValue = false;
+      }
+      var s = [$('s1').value, $('s2').value, $('s3').value, $('s4').value], 
+          e = [$('e1').value, $('e2').value, $('e3').value, $('e4').value], 
+          t = $('time').value;
+      clip.init('elm',s , e, t, function(v){
+        console.log(v)
+        v = "rect(" + v.t +"px," + v.r +"px," + v.b +"px," + v.l +"px)";
+        $('clipValue').value = v;
+      });
+    }
+  </script>
+</body>
+</html>
