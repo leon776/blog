@@ -21,7 +21,7 @@ define('DB_NAME', 'leons_blog');
 define('DB_USER', 'root');
 
 /** MySQL 数据库密码 */
-define('DB_PASSWORD', 'sd-9898w');
+define('DB_PASSWORD', '12345678');
 
 /** MySQL 主机 */
 define('DB_HOST', '127.0.0.1');
